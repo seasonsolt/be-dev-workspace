@@ -1,0 +1,49 @@
+# docker-compose.yml
+# Ginkgoo AI Infrastructure Services Configuration
+# Responsibility: Provides infrastructure services only (database, cache, service discovery)
+# Microservices should be started locally in IDEA for debugging support
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg14
+    ports:
+      - "15432:5432"
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    command: postgres -c shared_preload_libraries=vector
+
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "16379:6379"
+    volumes:
+      - redis_data:/data
+        
+        
+  consul:
+    image: hashicorp/consul:1.17
+    container_name: ginkgoo-consul
+    command: consul agent -dev -client=0.0.0.0 -ui
+    ports:
+      - "8500:8500"    # HTTP API & UI
+      - "8600:8600/udp" # DNS
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+    healthcheck:
+      test: [ "CMD", "consul", "members" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    external: true
+    name: ginkgoo_postgres_data
+  redis_data:
+    external: true
+    name: ginkgoo_redis_data
