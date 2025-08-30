@@ -12,6 +12,10 @@
     <name>Ginkgoo AI Ecosystem</name>
     <description>Parent POM for Ginkgoo AI microservices ecosystem - AI-native legal case management platform</description>
 
+    <properties>
+        <java.version>23</java.version>
+    </properties>
+
     <modules>
         <module>be-core-common</module>
         <module>be-core-identity</module>

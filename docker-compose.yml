@@ -15,7 +15,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     command: postgres -c shared_preload_libraries=vector
-
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7-alpine
@@ -23,11 +27,15 @@ services:
       - "16379:6379"
     volumes:
       - redis_data:/data
-        
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
         
   consul:
     image: hashicorp/consul:1.17
-    container_name: ginkgoo-consul
+    container_name: consul
     command: consul agent -dev -client=0.0.0.0 -ui
     ports:
       - "8500:8500"    # HTTP API & UI
