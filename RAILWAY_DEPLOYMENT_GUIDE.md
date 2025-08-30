@@ -30,7 +30,7 @@ REDIS_PORT=6379
 REDIS_PASSWORD=your-railway-redis-password
 
 # Service Configuration
-SERVER_PORT=9000
+SERVICE_PORT=9000
 SERVICE_HOST=0.0.0.0
 SERVICE_BASE_URL=https://your-identity-service.railway.app
 
@@ -77,7 +77,7 @@ REDIS_PORT=6379
 REDIS_PASSWORD=your-railway-redis-password
 
 # Service Configuration
-SERVER_PORT=8083
+SERVICE_PORT=8083
 SERVICE_HOST=0.0.0.0
 SERVICE_BASE_URL=https://your-legalcase-service.railway.app
 
@@ -119,7 +119,7 @@ REDIS_PORT=6379
 REDIS_PASSWORD=your-railway-redis-password
 
 # Service Configuration
-SERVER_PORT=8082
+SERVICE_PORT=8082
 SERVICE_HOST=0.0.0.0
 SERVICE_BASE_URL=https://your-workspace-service.railway.app
 

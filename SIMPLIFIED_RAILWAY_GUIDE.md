@@ -39,7 +39,7 @@ rm setup-env.sh
 
 ```bash
 # 基础配置
-SERVER_PORT=9000
+SERVICE_PORT=9000
 POSTGRES_HOST=railway-postgres-host
 POSTGRES_PORT=5432
 POSTGRES_DB=railway
@@ -60,7 +60,7 @@ Spring Boot 原生支持环境变量：
 
 ```yaml
 server:
-  port: ${SERVER_PORT:9000}
+  port: ${SERVICE_PORT:9000}
 
 spring:
   datasource:
@@ -97,7 +97,7 @@ spring:
 export POSTGRES_HOST=localhost
 export POSTGRES_PORT=15432
 export POSTGRES_PASSWORD=postgres
-export SERVER_PORT=9000
+export SERVICE_PORT=9000
 
 # 重新加载
 source ~/.bashrc

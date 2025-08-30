@@ -70,7 +70,7 @@ public class EnvConfig {
 
 ```yaml
 server:
-  port: ${SERVER_PORT:8080}
+  port: ${SERVICE_PORT:8080}
 
 spring:
   datasource:
@@ -136,7 +136,7 @@ REDIS_PASSWORD=
 
 ### 服务配置
 ```bash
-SERVER_PORT=8080
+SERVICE_PORT=8080
 SERVICE_HOST=localhost
 SERVICE_BASE_URL=http://localhost:8080
 ```
@@ -188,7 +188,7 @@ REDIS_PORT=16379
 REDIS_PASSWORD=
 
 # Service Configuration
-SERVER_PORT=8080
+SERVICE_PORT=8080
 SERVICE_HOST=localhost
 
 # Add your other environment variables here...

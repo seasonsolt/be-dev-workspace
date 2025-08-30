@@ -85,9 +85,11 @@ setup:
 	@echo "$(GREEN)✅ Environment initialization complete$(NC)"
 	@echo "$(YELLOW)⚠️  Please edit .env files with actual configuration$(NC)"
 
-## 启动所有服务
+## Start infrastructure and provide microservice guidance
 start: infra-start
-	@sleep 10
+	@echo ""
+	@echo "$(GREEN)✅ Infrastructure services are ready!$(NC)"
+	@echo ""
 	@make app-start
 
 ## Stop all services
@@ -139,38 +141,71 @@ infra-stop:
 infra-logs:
 	@docker-compose -f $(COMPOSE_FILE) logs -f $(INFRASTRUCTURE_SERVICES)
 
-## Start application services
+## Application services guidance (not started via Docker)
 app-start:
-	@echo "$(BLUE)Starting application services...$(NC)"
-	@docker-compose -f $(COMPOSE_FILE) up -d $(JAVA_SERVICES) $(PYTHON_SERVICES)
-	@echo "$(GREEN)✅ Application services started$(NC)"
+	@echo "$(YELLOW)📝 Application services should be started locally for debugging:$(NC)"
+	@echo ""
+	@echo "$(BLUE)Recommended startup order:$(NC)"
+	@echo "1. $(GREEN)be-core-identity$(NC) (Port 9000) - Authentication server"
+	@echo "2. $(GREEN)be-core-workspace$(NC) (Port 8082) - Multi-tenant workspace"
+	@echo "3. $(GREEN)be-legal-case$(NC) (Port 8083) - Legal case management"
+	@echo "4. $(GREEN)be-core-storage$(NC) (Port 8084) - File storage service"
+	@echo "5. $(GREEN)be-core-messaging$(NC) (Port 8085) - Email/messaging service"
+	@echo "6. $(GREEN)be-core-gateway$(NC) (Port 8080) - API gateway"
+	@echo "7. $(GREEN)be-core-intelligence$(NC) (Port 8086) - AI/Python service"
+	@echo ""
+	@echo "$(YELLOW)💡 Start each service in IntelliJ IDEA with Debug mode$(NC)"
+	@echo "$(YELLOW)💡 Or use 'mvn spring-boot:run' in each service directory$(NC)"
 
-## Stop application services
+## Application service guidance (Docker not used for microservices)
 app-stop:
-	@echo "$(BLUE)Stopping application services...$(NC)"
-	@docker-compose -f $(COMPOSE_FILE) stop $(JAVA_SERVICES) $(PYTHON_SERVICES)
-	@echo "$(GREEN)✅ Application services stopped$(NC)"
+	@echo "$(YELLOW)📝 Application services are running locally in IDEA$(NC)"
+	@echo "$(YELLOW)💡 Stop them directly from IDEA or terminate the Java processes$(NC)"
 
-## Restart application services
-app-restart: app-stop app-start
+## Application service guidance (Docker not used for microservices) 
+app-restart:
+	@make app-stop
+	@make app-start
 
-## Start identity authentication service
+## Start identity authentication service guidance
 start-identity:
-	@echo "$(BLUE)Starting identity authentication service...$(NC)"
-	@docker-compose -f $(COMPOSE_FILE) up -d be-core-identity
-	@echo "$(GREEN)✅ Identity authentication service started$(NC)"
+	@echo "$(BLUE)📝 To start Identity Authentication Service:$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Method 1 - IntelliJ IDEA:$(NC)"
+	@echo "  1. Open be-core-identity project"
+	@echo "  2. Run GinkgooCoreIdentityApplication.java in Debug mode"
+	@echo "  3. Service will start on port 9000"
+	@echo ""
+	@echo "$(YELLOW)Method 2 - Command line:$(NC)"
+	@echo "  cd ../be-core-identity && mvn spring-boot:run"
 
-## Start legal case service
+## Start legal case service guidance
 start-legal:
-	@echo "$(BLUE)Starting legal case service...$(NC)"
-	@docker-compose -f $(COMPOSE_FILE) up -d be-legal-case
-	@echo "$(GREEN)✅ Legal case service started$(NC)"
+	@echo "$(BLUE)📝 To start Legal Case Service:$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Prerequisites:$(NC) Start be-core-identity and be-core-workspace first"
+	@echo ""
+	@echo "$(YELLOW)Method 1 - IntelliJ IDEA:$(NC)"
+	@echo "  1. Open be-legal-case project"
+	@echo "  2. Run GinkgooLegalCaseApplication.java in Debug mode"
+	@echo "  3. Service will start on port 8083"
+	@echo ""
+	@echo "$(YELLOW)Method 2 - Command line:$(NC)"
+	@echo "  cd ../be-legal-case && mvn spring-boot:run"
 
-## Start API gateway
+## Start API gateway guidance
 start-gateway:
-	@echo "$(BLUE)Starting API gateway...$(NC)"
-	@docker-compose -f $(COMPOSE_FILE) up -d be-core-gateway
-	@echo "$(GREEN)✅ API gateway started$(NC)"
+	@echo "$(BLUE)📝 To start API Gateway:$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Prerequisites:$(NC) Start other services first (identity, workspace, legal-case)"
+	@echo ""
+	@echo "$(YELLOW)Method 1 - IntelliJ IDEA:$(NC)"
+	@echo "  1. Open be-core-gateway project"
+	@echo "  2. Run CoreGatewayApplication.java in Debug mode"
+	@echo "  3. Service will start on port 8080"
+	@echo ""
+	@echo "$(YELLOW)Method 2 - Command line:$(NC)"
+	@echo "  cd ../be-core-gateway && mvn spring-boot:run"
 
 ## Build all Java services
 build:
